@@ -200,9 +200,7 @@ This response is returned when the email or password is invalid.
 ---
 
 
-# API Documentation
-
-## **Endpoint: /users/logout**
+# Endpoint: /users/logout
 
 ### **Method:** POST
 
@@ -291,3 +289,113 @@ Retrieves the profile information of the currently authenticated user.
 
 ---
 
+Here’s a properly formatted documentation for the Captain Registration endpoint for easy copying:
+
+---
+
+
+# Captain Registration Endpoint Documentation
+
+## **Endpoint**
+**`POST /captains/register`**
+
+---
+
+## **Description**
+This endpoint allows a new captain to register by providing their email, first name, last name, and password. Upon successful registration, a JSON Web Token (JWT) is generated and returned, which can be used for authentication in subsequent requests.
+
+---
+
+## **Request Body**
+The request must include a JSON object with the following fields:
+
+- **email**: The email address of the captain. Must be a valid email format.
+- **fullname**: An object containing:
+  - **firstname**: The first name of the captain. Must be at least 3 characters long.
+  - **lastname**: The last name of the captain. (Optional, but if provided, it must be at least 3 characters long.)
+- **password**: The password for the captain's account. Must be at least 8 characters long.
+
+### **Example Request**
+```json
+{
+  "email": "captain@example.com",
+  "fullname": {
+    "firstname": "Jane",
+    "lastname": "Smith"
+  },
+  "password": "securepassword123"
+}
+```
+
+---
+
+## **Responses**
+
+### **Success Response**
+- **Status Code**: `201 Created`
+- **Content**:
+```json
+{
+  "token": "JWT_TOKEN_HERE",
+  "captain": {
+    "fullname": {
+      "firstname": "Jane",
+      "lastname": "Smith"
+    },
+    "email": "captain@example.com",
+    "password": "hashed_password"
+  }
+}
+```
+
+---
+
+### **Error Response**
+
+#### **400 Bad Request**
+This response is returned when validation rules are not met.
+
+- **Content**:
+```json
+{
+  "errors": [
+    {
+      "msg": "Invalid Email",
+      "param": "email",
+      "location": "body"
+    },
+    {
+      "msg": "firstname must be at least 3 characters long",
+      "param": "fullname.firstname",
+      "location": "body"
+    },
+    {
+      "msg": "password must be at least 8 characters long",
+      "param": "password",
+      "location": "body"
+    }
+  ]
+}
+```
+
+---
+
+## **Validation Rules**
+
+- **Email**:
+  - Must be in a valid email format.
+  - Must be unique and not already registered in the system.
+- **First Name**:
+  - Must be at least 3 characters long.
+- **Password**:
+  - Must be at least 8 characters long.
+  - Will be hashed before storing in the database for security purposes.
+
+---
+
+## **Notes**
+1. Ensure all validations are performed before processing the registration.
+2. The response includes a JWT token that can be used for authentication in subsequent requests.
+3. The password in the response is hashed for security purposes.
+
+---
