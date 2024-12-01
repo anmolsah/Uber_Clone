@@ -399,3 +399,202 @@ This response is returned when validation rules are not met.
 3. The password in the response is hashed for security purposes.
 
 ---
+
+
+Here’s a well-structured documentation for the Captain Login, Profile, and Logout endpoints for easy reference and use.
+
+---
+
+### **Captain Login Endpoint Documentation**
+
+#### **Endpoint**
+`POST /captains/login`
+
+#### **Description**
+Allows an existing captain to log in by providing their email and password. Upon successful login, a JSON Web Token (JWT) is generated and returned, which can be used for authentication in subsequent requests.
+
+---
+
+#### **Request Body**
+- **email**: The captain's email address (must be a valid email format).
+- **password**: The captain's password (must be at least 8 characters long).
+
+##### **Example Request**
+```json
+{
+  "email": "captain@example.com",
+  "password": "securepassword123"
+}
+```
+
+---
+
+#### **Responses**
+
+##### **Success Response**
+- **Status Code**: `200 OK`
+- **Content**:
+```json
+{
+  "token": "JWT_TOKEN_HERE",
+  "captain": {
+    "fullname": {
+      "firstname": "Jane",
+      "lastname": "Smith"
+    },
+    "email": "captain@example.com",
+    "password": "hashed_password"
+  }
+}
+```
+
+##### **Error Responses**
+
+###### **400 Bad Request**
+This occurs when validation rules are not met.
+- **Content**:
+```json
+{
+  "errors": [
+    {
+      "msg": "Invalid Email",
+      "param": "email",
+      "location": "body"
+    },
+    {
+      "msg": "password must be at least 8 characters long",
+      "param": "password",
+      "location": "body"
+    }
+  ]
+}
+```
+
+###### **401 Unauthorized**
+This occurs when the email or password is invalid.
+- **Content**:
+```json
+{
+  "error": "Invalid email or password"
+}
+```
+
+---
+
+#### **Validation Rules**
+- **Email**: Must be a valid email format.
+- **Password**: Must be at least 8 characters long.
+
+---
+
+#### **Notes**
+1. Ensure all validations are performed before processing the login request.
+2. The provided email must correspond to an existing captain in the system.
+3. If the captain is not found or the password does not match, a `401 Unauthorized` error is returned.
+4. Passwords in the response are hashed for security purposes.
+
+---
+
+### **Captain Profile Endpoint Documentation**
+
+#### **Endpoint**
+`GET /captains/profile`
+
+#### **Description**
+Retrieves the profile information of the currently authenticated captain.
+
+---
+
+#### **Request**
+- **Headers**:
+  - `Authorization: Bearer <token>` (required): The authentication token used to verify the captain's identity.
+- **Cookies**:
+  - `token` (optional): The authentication token stored in the captain's cookies.
+
+---
+
+#### **Responses**
+
+##### **Success Response**
+- **Status Code**: `200 OK`
+- **Content**:
+```json
+{
+  "fullname": {
+    "firstname": "Jane",
+    "lastname": "Smith"
+  },
+  "email": "captain@example.com"
+}
+```
+
+##### **Error Responses**
+
+###### **401 Unauthorized**
+This occurs when the captain is not authenticated or the token is invalid.
+- **Content**:
+```json
+{
+  "error": "Unauthorized access"
+}
+```
+
+---
+
+#### **Notes**
+1. This endpoint requires the captain to be authenticated.
+2. If the token is invalid or expired, a `401 Unauthorized` error is returned.
+3. The response includes the captain's profile information, such as `firstname`, `lastname`, and `email`.
+
+---
+
+### **Captain Logout Endpoint Documentation**
+
+#### **Endpoint**
+`GET /captains/logout`
+
+#### **Description**
+Logs out the captain by clearing the authentication token from the cookies and adding it to the blacklist to prevent further use.
+
+---
+
+#### **Request**
+- **Headers**:
+  - `Content-Type: application/json`
+- **Cookies**:
+  - `token` (optional): The authentication token stored in the captain's cookies.
+- **Body**:
+  - No body is required.
+
+---
+
+#### **Responses**
+
+##### **Success Response**
+- **Status Code**: `200 OK`
+- **Content**:
+```json
+{
+  "message": "Logged out successfully"
+}
+```
+
+##### **Error Responses**
+
+###### **400 Bad Request**
+This occurs if there is no token available in cookies or headers.
+- **Content**:
+```json
+{
+  "error": "Token not provided"
+}
+```
+
+---
+
+#### **Notes**
+1. This endpoint requires the captain to be authenticated.
+2. If the token is not present, the captain will not be logged out successfully.
+3. The token is added to a blacklist to prevent its future use.
+
+---
