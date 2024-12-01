@@ -89,7 +89,7 @@ The request must include a JSON object with the following fields:
 
 
 
-Here’s the updated version without tables for easy copying:
+
 
 ---
 
@@ -193,3 +193,104 @@ This response is returned when the email or password is invalid.
 3. **Security**: Passwords in the response are hashed for security purposes.
 
 ---
+
+
+Here’s the properly formatted documentation for `/users/logout` and `/users/profile` endpoints for easy copying:
+
+---
+
+```markdown
+# API Documentation
+
+## **Endpoint: /users/logout**
+
+### **Method:** POST
+
+### **Description:**
+Logs out the user by clearing the authentication token from the cookies and adding it to the blacklist to prevent further use.
+
+---
+
+### **Request:**
+- **Headers:**
+  - `Content-Type`: application/json
+- **Cookies:**
+  - `token` (optional): The authentication token stored in the user's cookies.
+- **Body:** No body is required.
+
+---
+
+### **Response:**
+
+#### **Success (200 OK):**
+```json
+{
+  "message": "Logged out successfully"
+}
+```
+
+#### **Error Responses:**
+
+**400 Bad Request**: If there is no token available in cookies or headers.
+```json
+{
+  "error": "Token not provided"
+}
+```
+
+---
+
+### **Notes:**
+1. This endpoint requires the user to be authenticated. If the token is not present, the user will not be logged out successfully.
+2. The token is added to a blacklist to prevent future use of the token.
+
+---
+
+## **Endpoint: /users/profile**
+
+### **Method:** GET
+
+### **Description:**
+Retrieves the profile information of the currently authenticated user.
+
+---
+
+### **Request:**
+- **Headers:**
+  - `Authorization`: Bearer `<token>` (required): The authentication token used to verify the user's identity.
+- **Cookies:**
+  - `token` (optional): The authentication token stored in the user's cookies.
+
+---
+
+### **Response:**
+
+#### **Success (200 OK):**
+```json
+{
+  "firstname": "John",
+  "lastname": "Doe",
+  "email": "john.doe@example.com"
+}
+```
+
+#### **Error Responses:**
+
+**401 Unauthorized**: If the user is not authenticated or the token is invalid.
+```json
+{
+  "error": "Unauthorized access"
+}
+```
+
+---
+
+### **Notes:**
+1. This endpoint requires the user to be authenticated. If the token is invalid or expired, a `401 Unauthorized` error will be returned.
+2. The response includes the user's profile information, such as `firstname`, `lastname`, and `email`.
+
+---
+
+Feel free to adjust the example responses to match your actual user model's structure as necessary.
+```
+
