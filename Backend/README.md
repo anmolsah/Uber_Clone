@@ -93,7 +93,7 @@ The request must include a JSON object with the following fields:
 
 ---
 
-```markdown
+
 # User Login Endpoint Documentation
 
 ## **Endpoint**
@@ -195,11 +195,11 @@ This response is returned when the email or password is invalid.
 ---
 
 
-Here’s the properly formatted documentation for `/users/logout` and `/users/profile` endpoints for easy copying:
+ documentation for `/users/logout` and `/users/profile` endpoints:
 
 ---
 
-```markdown
+
 # API Documentation
 
 ## **Endpoint: /users/logout**
@@ -290,7 +290,4 @@ Retrieves the profile information of the currently authenticated user.
 2. The response includes the user's profile information, such as `firstname`, `lastname`, and `email`.
 
 ---
-
-Feel free to adjust the example responses to match your actual user model's structure as necessary.
-```
 
