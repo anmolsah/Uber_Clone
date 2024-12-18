@@ -11,7 +11,19 @@ const WaitingForDriver = (props) => {
       >
         <i className="text-3xl text-gray-400 ri-arrow-down-wide-line"></i>
       </h5>
-      <h3 className="text-2xl font-semibold mb-5">Looking for a Driver</h3>
+
+      <div className="flex items-center justify-between">
+        <img
+          className="h-10"
+          src="https://www.pngplay.com/wp-content/uploads/8/Uber-PNG-Photos.png"
+        />
+        <div className="text-right">
+          <h2 className="text-lg font-medium">Anmol</h2>
+          <h4 className="text-xl font-semibold -mt-1 -mb-1">WB04 BC 1234</h4>
+          <p className="text-sm text-gray-600">Maruti Suziki Alto</p>
+        </div>
+      </div>
+
       <div className="flex gap-2 justify-between items-center flex-col">
         <img
           className="h-20"
