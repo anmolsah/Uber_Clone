@@ -26,6 +26,8 @@ const Home = () => {
   const [pickupSuggestion, setPickupSuggestion] = useState([]);
   const [destinationSuggestion, setDestinationSuggestion] = useState([]);
   const [activeField, setActiveField] = useState(null);
+  const [fare, setFare] = useState({});
+  const [vehicleType, setVehicleType] = useState(null);
 
   const handlePickupChange = async (e) => {
     setPickup(e.target.value);
@@ -152,9 +154,36 @@ const Home = () => {
     [waitingForDriver]
   );
 
-  function findTrip() {
+  async function findTrip() {
     setVehiclePanel(true);
     setPanelOpen(false);
+    const response = await axios.get(
+      `${import.meta.env.VITE_BASE_URL}/rides/get-fare`,
+      {
+        params: { pickup, destination },
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      }
+    );
+    setFare(response.data);
+  }
+
+  async function createRide() {
+    const response = await axios.post(
+      `${import.meta.env.VITE_BASE_URL}/rides/create`,
+      {
+        pickup,
+        destination,
+        vehicleType,
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      }
+    );
+    console.log(response.data);
   }
   return (
     <div className="h-screen relative overflow-hidden">
@@ -236,6 +265,8 @@ const Home = () => {
         className="fixed w-full z-10 bg-white bottom-0 px-3 py-10 translate-y-full pt-12"
       >
         <VehiclePanel
+          selectVehicle={setVehicleType}
+          fare={fare}
           setConfirmRidePanel={setConfirmRidePanel}
           setVehiclePanel={setVehiclePanel}
         />
@@ -246,6 +277,11 @@ const Home = () => {
         className="fixed w-full z-10 bg-white bottom-0 px-3 py-10 translate-y-full"
       >
         <ConfirmedRide
+          createRide={createRide}
+          pickup={pickup}
+          destination={destination}
+          fare={fare}
+          vehicleType={vehicleType}
           setConfirmRidePanel={setConfirmRidePanel}
           setVehicleFound={setVehicleFound}
         />
@@ -254,7 +290,13 @@ const Home = () => {
         ref={vehicleFoundRef}
         className="fixed w-full z-10 bg-white bottom-0 px-3 py-10 translate-y-full"
       >
-        <LookingForDriver setVehicleFound={setVehicleFound} />
+        <LookingForDriver 
+        createRide={createRide}
+        pickup={pickup}
+        destination={destination}
+        fare={fare}
+        vehicleType={vehicleType}
+        setVehicleFound={setVehicleFound} />
       </div>
       <div
         ref={waitingForDriverRef}

@@ -15,6 +15,7 @@ const VehiclePanel = (props) => {
       <div
         onClick={() => {
           props.setConfirmRidePanel(true);
+          props.selectVehicle("car");
         }}
         className="flex w-full border-2 active:border-black rounded-xl  items-center justify-between p-3 mb-2"
       >
@@ -34,12 +35,13 @@ const VehiclePanel = (props) => {
             Affordable, compact rides
           </p>
         </div>
-        <h2 className="text-lg font-semibold">₹193.20</h2>
+        <h2 className="text-lg font-semibold">₹{props.fare.car}</h2>
       </div>
 
       <div
         onClick={() => {
           props.setConfirmRidePanel(true);
+          props.selectVehicle("motorcycle");
         }}
         className="flex w-full border-2 active:border-black rounded-xl  items-center justify-between p-3 mb-2"
       >
@@ -59,12 +61,13 @@ const VehiclePanel = (props) => {
             Affordable, motocycle rides
           </p>
         </div>
-        <h2 className="text-lg font-semibold">₹65</h2>
+        <h2 className="text-lg font-semibold">₹{props.fare.motorcycle}</h2>
       </div>
 
       <div
         onClick={() => {
           props.setConfirmRidePanel(true);
+          props.selectVehicle("auto");
         }}
         className="flex w-full border-2 active:border-black rounded-xl  items-center justify-between p-3 mb-2"
       >
@@ -74,7 +77,7 @@ const VehiclePanel = (props) => {
         />
         <div className="ml-2 w-1/2">
           <h4 className="font-medium text-base">
-            UberMoto{" "}
+            UberAuto{" "}
             <span>
               <i className="ri-user-3-fill"></i>2
             </span>
@@ -84,7 +87,7 @@ const VehiclePanel = (props) => {
             Affordable, Auto rides
           </p>
         </div>
-        <h2 className="text-lg font-semibold">₹118.68</h2>
+        <h2 className="text-lg font-semibold">₹{props.fare.auto}</h2>
       </div>
     </div>
   );
