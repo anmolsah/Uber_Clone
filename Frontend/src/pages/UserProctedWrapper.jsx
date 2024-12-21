@@ -22,11 +22,12 @@ const UserProctedWrapper = ({ children }) => {
       })
       .then((response) => {
         if (response.status === 200) {
-          setUser(response.data.user);
+          setUser(response.data);
           setIsLoading(false);
         }
       })
       .catch((error) => {
+        console.log(error);
         localStorage.removeItem("token");
         navigate("/login");
       });

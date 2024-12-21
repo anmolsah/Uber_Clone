@@ -26,15 +26,29 @@ function initializeSocket(server) {
       }
     });
 
+    socket.on("update-location-captain", async (data) => {
+      const { userId, location } = data;
+      if (!location || !location.ltd || !location.lng) {
+        return socket.emit("error", { message: "Invalid location data" });
+      }
+      await captainModel.findByIdAndUpdate(userId, {
+        location: {
+          ltd: location.ltd,
+          lng: location.lng,
+        },
+      });
+    });
+
     socket.on("disconnect", () => {
       console.log(`Disconnected from socket: ${socket.id}`);
     });
   });
 }
 
-function sendMessageToSocket(socketId, message) {
+function sendMessageToSocket(socketId, messageObject) {
+  console.log(`Sending message to socket: ${socketId}`, messageObject);
   if (io) {
-    io.to(socketId).emit("message", message);
+    io.to(socketId).emit(messageObject.event, messageObject.data);
   } else {
     console.log("Socket not initialized");
   }

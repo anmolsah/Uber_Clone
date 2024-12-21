@@ -13,7 +13,7 @@ const CaptainDetails = () => {
             src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTDvDpQGNSOMBfenaprWjx2S2SO5_alG_UMvg&s"
           />
           <h4 className="text-lg font-medium capitalize">
-            {captain.fullname.firstname + " " + captain.fullname.lastname}
+            {captain?.fullname?.firstname + " " + captain?.fullname?.lastname}
           </h4>
         </div>
         <div>

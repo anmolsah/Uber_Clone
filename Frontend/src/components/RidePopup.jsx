@@ -18,7 +18,11 @@ const RidePopup = (props) => {
             className="h-12 w-12 rounded-full border-2 border-white object-cover"
             src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQxqXXK3aibXV9zsVSLID4Jg0rlMVQ1VRZabA&s"
           />
-          <h2 className="text-lg font-medium">Harshita Guns</h2>
+          <h2 className="text-lg font-medium">
+            {props.ride?.user.fullname.firstname +
+              " " +
+              props.ride?.user.fullname.lastname}
+          </h2>
         </div>
         <h5 className="text-lg font-semibold">2.2 KM</h5>
       </div>
@@ -28,20 +32,22 @@ const RidePopup = (props) => {
             <i className="text-lg ri-map-pin-2-fill"></i>
             <div>
               <h3 className="text-lg font-medium">562/11-A</h3>
-              <p className="text-sm -mt-1 text-gray-600">Jheel Park, Kolkata</p>
+              <p className="text-sm -mt-1 text-gray-600">{props.ride?.pickup}</p>
             </div>
           </div>
           <div className="flex items-center gap-5 p-3 border-b-2">
             <i className="text-lg ri-map-pin-4-fill"></i>
             <div>
               <h3 className="text-lg font-medium">562/11-A</h3>
-              <p className="text-sm -mt-1 text-gray-600">Jheel Park, Kolkata</p>
+              <p className="text-sm -mt-1 text-gray-600">
+                {props.ride?.destination}
+              </p>
             </div>
           </div>
           <div className="flex items-center gap-5 p-3">
             <i className="ri-currency-fill"></i>
             <div>
-              <h3 className="text-lg font-medium">₹193.56</h3>
+              <h3 className="text-lg font-medium">₹{props.ride?.fare}</h3>
               <p className="text-sm -mt-1 text-gray-600">Cash Cash</p>
             </div>
           </div>
@@ -50,6 +56,7 @@ const RidePopup = (props) => {
           <button
             onClick={() => {
               props.setRidePopupPanel(false);
+              props.confirmRide();
             }}
             className=" mt-1 bg-gray-500 text-black font-semibold p-3 px-10 rounded-lg"
           >
